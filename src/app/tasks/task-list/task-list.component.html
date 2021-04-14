@@ -1,0 +1,29 @@
+<div class="tasks-list" *ngIf="tasks">
+  <table cellspacing="8" style="width:100%">
+    <tr>
+      <td>
+        <h1 class="" style="margin-left: 16px;"> Tasks</h1>
+      </td>
+      <td style="float: right;"><app-task-form (created)="onNewTask($event)"></app-task-form></td>
+    </tr>
+  </table>
+  
+  <mat-list #taskList>
+    <mat-list-item [id]="task.id" #option *ngFor="let task of tasks">
+      <div matLine>
+        <mat-checkbox #taskDone style="padding: 8px 16px;" [checked]="task.checked" (change)="OnChange($event, task)">
+          <span [ngClass]="{'task-done': taskDone.checked}" style="margin-left: 16px">{{task.name}}</span>
+        </mat-checkbox>
+        <button mat-icon-button (click)="delete(task.id)" style="float: right;">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-list-item>
+  </mat-list>
+  <mat-divider></mat-divider>
+  <div style="margin: 16px 24px; font-weight: 500;">
+    <span>Completed Tasks: {{ completedTasks }}</span>
+    <span style="float: right;">Total Tasks: {{ tasks.length }}</span> 
+    
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<form [formGroup]="taskForm" (ngSubmit)="submit();">
+    <section style="display: inline;">
+        <mat-form-field #taskName>
+            <mat-label>Add Task</mat-label>
+            <input matInput type="text" formControlName="name">
+            <mat-error *ngIf="taskName._control.focused && taskForm.get('name')?.dirty && taskForm.get('name')?.hasError('required')">task required</mat-error>
+            <mat-error *ngIf="taskForm.get('name')?.hasError('minlength')">should be at least 3 letters</mat-error>
+            <mat-error *ngIf="taskForm.get('name')?.hasError('notUnique')">Task already exists</mat-error>
+          </mat-form-field>
+    </section>
+    <button mat-button type="submit" style="margin-left: 8px;">Add</button>
+</form>
