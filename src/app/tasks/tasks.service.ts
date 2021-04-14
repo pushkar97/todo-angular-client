@@ -11,7 +11,8 @@ import { TaskDto } from './dtos/TaskDto';
 })
 export class TasksService {
 
-  host = 'https://tasks-api-rest.herokuapp.com/';
+  // host = 'https://tasks-api-rest.herokuapp.com/';
+  host = 'http://localhost:8080/';
   baseUrl = `${this.host}api/tasks/`;
 
   httpOptions = {
