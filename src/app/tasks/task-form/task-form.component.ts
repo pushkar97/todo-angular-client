@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Task } from '../Task';
+import { TaskDto } from '../dtos/TaskDto';
 import { TaskValidationService } from '../task-validation.service';
 import { TasksService } from '../tasks.service';
 
@@ -11,7 +11,7 @@ import { TasksService } from '../tasks.service';
 })
 export class TaskFormComponent implements OnInit {
 
-  @Output() created = new EventEmitter<Task>();
+  @Output() created = new EventEmitter<TaskDto>();
 
   taskForm = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(3)]]
@@ -29,7 +29,9 @@ export class TaskFormComponent implements OnInit {
     if (this.taskForm.valid){
       this.taskService
         .addTask(this.taskForm.value)
-        .subscribe(t => { this.created.emit(t); });
+        .subscribe(t => {
+          this.created.emit(t);
+        });
       this.taskForm.reset();
     }
   }

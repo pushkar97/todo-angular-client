@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { map } from 'rxjs/operators';
-import { Task } from './Task';
 import { TasksService } from './tasks.service';
 
 @Injectable({
@@ -22,7 +21,7 @@ export class TaskValidationService {
 
       this.taskService.getTasks()
       .pipe(
-        map((taskDto) => taskDto._embedded.taskDtoList),
+        map((tasksDto) => tasksDto._embedded ? tasksDto._embedded.taskDtoList : []),
         map((tasks) => tasks.filter(t => t.name === taskControl.value)),
         map((tasks) => !tasks.length),
         map((unique) => unique ? taskControl.setErrors(null) : taskControl.setErrors({notUnique: true}))
