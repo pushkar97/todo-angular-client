@@ -6,13 +6,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { UsersService } from '../account/users.service';
 import { TaskDto } from './dtos/TaskDto';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
 
-  // host = 'https://tasks-api-rest.herokuapp.com/';
-  host = 'http://localhost:8080/';
+  host = environment.host;
   baseUrl = `${this.host}api/tasks/`;
 
   httpOptions = {
@@ -35,9 +35,9 @@ export class TasksService {
     ));
   }
 
-  addTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.baseUrl, task, this.httpOptions).pipe(
-      catchError(this.handleError<Task>('Add Task'))
+  addTask(task: Task): Observable<TaskDto> {
+    return this.http.post<TaskDto>(this.baseUrl, task, this.httpOptions).pipe(
+      catchError(this.handleError<TaskDto>('Add Task'))
     );
   }
 
@@ -47,10 +47,9 @@ export class TasksService {
     );
   }
 
-  deleteTask(task: Task | number): Observable<Task> {
-    const id = typeof task === 'number' ? task : task.id;
-    return this.http.delete<Task>(`${this.baseUrl}${id}`, this.httpOptions).pipe(
-      catchError(this.handleError<Task>('Delete Task'))
+  deleteTask(task: TaskDto): Observable<Task> {
+    return this.http.delete<Task>(task._links.self.href, this.httpOptions).pipe(
+      catchError(this.handleError<Task>(`Delete Task id:${task.id}`))
     );
   }
 

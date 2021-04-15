@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class UsersService {
 
-  public token?: string = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQHRlc3QuY29tIiwiQXV0aG9yaXRpZXMiOlsiVVNFUiJdLCJleHAiOjE2MTg0NjY3ODh9.nzrR3dDnBJ-xPe2enbBsCeDUQAQVUtKi3iFFnhRF2gM_hu52YYMrBah5R8OsL8GSpGCXC75Xe494y6gU7TXwgg';
+  public token?: string = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0ZXN0LmNvbSIsIkF1dGhvcml0aWVzIjpbIkFETUlOIl0sImV4cCI6MTYxODUwNTk3NX0.uUxSitaGQI_1ZJaOszv7IFpG3r9nO4zPRM_G7lF6Gi4D-cP5xf7KMaoPx0d9O7vaCHdY7ssYntj8OOEb0hQLow';
 
   constructor() { }
 

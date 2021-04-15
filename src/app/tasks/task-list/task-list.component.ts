@@ -24,7 +24,7 @@ export class TaskListComponent implements OnInit {
   getTasks(): void {
     this.taskService.getTasks()
       .subscribe(tasks => {
-        this.tasks = tasks._embedded.taskDtoList;
+        this.tasks = tasks._embedded ? tasks._embedded.taskDtoList : [];
         this.meta = tasks._links;
         this.getCompletedTaskCount();
       });
@@ -34,17 +34,15 @@ export class TaskListComponent implements OnInit {
     this.tasks.push($event);
   }
 
-  delete(id: number): void{
-    this.tasks = this.tasks?.filter(ta => ta.id !== id);
-    this.taskService.deleteTask(id)
-      .subscribe();
-    this.getCompletedTaskCount();
+  delete(task: TaskDto): void{
+    this.tasks = this.tasks?.filter(ta => ta.id !== task.id);
+    this.taskService.deleteTask(task)
+      .subscribe(t => this.getCompletedTaskCount());
   }
 
   OnChange($event: any, task: TaskDto): void {
     task.checked = $event.checked;
-    this.taskService.toggleCheched(task).subscribe();
-    this.getCompletedTaskCount();
+    this.taskService.toggleCheched(task).subscribe(t => this.getCompletedTaskCount());
   }
 
   getCompletedTaskCount(): void {

@@ -14,7 +14,7 @@
         <mat-checkbox #taskDone style="padding: 8px 16px;" [checked]="task.checked" (change)="OnChange($event, task)">
           <span [ngClass]="{'task-done': taskDone.checked}" style="margin-left: 16px">{{task.name}}</span>
         </mat-checkbox>
-        <button mat-icon-button (click)="delete(task.id)" style="float: right;">
+        <button mat-icon-button (click)="delete(task)" style="float: right;">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
