@@ -1,20 +1,47 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { stringify } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
-  public token?: string = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkB0ZXN0LmNvbSIsIkF1dGhvcml0aWVzIjpbIkFETUlOIl0sImV4cCI6MTYxODUwNTk3NX0.uUxSitaGQI_1ZJaOszv7IFpG3r9nO4zPRM_G7lF6Gi4D-cP5xf7KMaoPx0d9O7vaCHdY7ssYntj8OOEb0hQLow';
+  host = environment.host;
+  baseUrl = `${this.host}api/login`;
 
-  constructor() { }
+  private userDetailSource = new Subject<{username: string, token: string}>();
 
-  // login(username: string, password: string): void {
-  //   if (username === 'admin'){
-  //     this.token = 'test-token-admin';
-  //   }
-  //   if (username === 'user'){
-  //     this.token = 'test-token-admin';
-  //   }
-  // }
+  userDetail$ = this.userDetailSource.asObservable();
+
+  private headers =  new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+  constructor(private http: HttpClient,
+              private router: Router) { }
+
+  login(username: string, password: string): void {
+    this.http.post(this.baseUrl, {email: username, password}, {responseType: 'text', headers: this.headers})
+      .pipe(
+        map(s => {
+          const username1 = s.split(' ')[0];
+          const token1 = 'Bearer ' + s.split(' ')[1];
+          this.userDetailSource.next({username: username1, token: token1});
+        }),
+        catchError(
+          (error: any): Observable<any> => {
+            console.log(`Authentication failed: ${error.message}`);
+            return of(null);
+          })
+      ).subscribe();
+  }
+
+  logOut(): void {
+    this.userDetailSource.next({username: '', token: ''});
+  }
 }

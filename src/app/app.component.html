@@ -8,13 +8,16 @@
       <span class="title-text">{{title}}</span>
     </a>
     <span class="menu-spacer"></span>
-    <div>
-      <a mat-button routerLink="/settings">Settings</a>
+    <div *ngIf="isLoggedIn">
+      <a mat-button (click)="logout()">Logout</a>
+    </div>
+    <div *ngIf="!isLoggedIn">
+      <a mat-button routerLink="/login">Login</a>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-sidenav-container>
-  <mat-sidenav class="sidenav" #sidenav opened mode="side">
+  <mat-sidenav class="sidenav" #sidenav opened="false" mode="side">
     <mat-nav-list>
       <div>
         <button mat-button class="sidenav-button" routerLink="/tasks">

@@ -16,8 +16,8 @@ export class TaskValidationService {
 
       const taskControl = taskForm.controls[task];
 
-      if (!taskControl) {return ; }
-      if (taskControl.errors) { return ; }
+      if (!taskControl) { return; }
+      if (taskControl.errors) { return; }
 
       this.taskService.getTasks()
       .pipe(

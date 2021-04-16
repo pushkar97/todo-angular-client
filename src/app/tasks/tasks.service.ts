@@ -1,38 +1,54 @@
 import { Injectable } from '@angular/core';
-import { from, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Task } from './Task';
-import { TasksDto} from './dtos/TasksDto';
+import { TasksDto } from './dtos/TasksDto';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { UsersService } from '../account/users.service';
 import { TaskDto } from './dtos/TaskDto';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TasksService {
 
   host = environment.host;
   baseUrl = `${this.host}api/tasks/`;
-
+  userDetails: { username: string, token: string } = { username: '', token: '' };
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-      .append('Authorization', this.userService.token ? this.userService.token : '')
+    headers: new HttpHeaders({ 'Content-Type': 'application/json', Authorization: this.userDetails.token })
   };
 
   constructor(private http: HttpClient,
-              private userService: UsersService) { }
+              private userService: UsersService,
+              private router: Router) {
 
-  getTasks(): Observable<TasksDto>{
+    this.userService.userDetail$.subscribe(t => {
+      console.log("callback called")
+      this.userDetails = t;
+      this.httpOptions = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json', Authorization: t.token })
+      };
+      if (this.userDetails.token){
+        this.router.navigateByUrl('/tasks');
+      }else{
+        this.router.navigateByUrl('/login');
+      }
+    });
+
+  }
+
+  getTasks(): Observable<TasksDto> {
     return this.http.get<TasksDto>(this.baseUrl, this.httpOptions).pipe(
       catchError(this.handleError<TasksDto>('getTasks')
-    ));
+      ));
   }
 
   getTaskByid(id: number): Observable<TaskDto> {
     return this.http.get<TaskDto>(`${this.baseUrl}/${id}`, this.httpOptions).pipe(
       catchError(this.handleError<TaskDto>(`getTaskById id=${id}`)
-    ));
+      ));
   }
 
   addTask(task: Task): Observable<TaskDto> {

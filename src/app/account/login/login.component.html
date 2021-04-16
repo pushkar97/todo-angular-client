@@ -1,0 +1,20 @@
+<form [formGroup]="loginForm" (ngSubmit)="login()" style="padding: 24px 0px; text-align: center;">
+    <h2>Login</h2>
+    <p>
+        <mat-form-field appearance="standard">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="email" formControlName="username">
+          <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+          <!-- <mat-hint>Hint</mat-hint> -->
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="standard">
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="password" formControlName="password" type="password">
+          <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+          <!-- <mat-hint>Hint</mat-hint> -->
+        </mat-form-field>
+      </p>
+      <p><button mat-button type="submit">login</button></p>
+</form>

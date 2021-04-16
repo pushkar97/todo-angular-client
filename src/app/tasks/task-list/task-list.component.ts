@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ResponseMeta } from 'src/app/ResponseMeta';
 import { TaskDto } from '../dtos/TaskDto';
-import { Task } from '../Task';
 import { TasksService } from '../tasks.service';
 
 @Component({
@@ -37,7 +36,10 @@ export class TaskListComponent implements OnInit {
   delete(task: TaskDto): void{
     this.tasks = this.tasks?.filter(ta => ta.id !== task.id);
     this.taskService.deleteTask(task)
-      .subscribe(t => this.getCompletedTaskCount());
+      .subscribe(t => {
+        this.getCompletedTaskCount();
+        this.tasks = this.tasks?.filter(ta => ta.id !== task.id);
+      });
   }
 
   OnChange($event: any, task: TaskDto): void {
