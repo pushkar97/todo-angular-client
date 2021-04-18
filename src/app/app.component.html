@@ -8,10 +8,10 @@
       <span class="title-text">{{title}}</span>
     </a>
     <span class="menu-spacer"></span>
-    <div *ngIf="isLoggedIn">
+    <div *ngIf="currentUser">
       <a mat-button (click)="logout()">Logout</a>
     </div>
-    <div *ngIf="!isLoggedIn">
+    <div *ngIf="!currentUser">
       <a mat-button routerLink="/login">Login</a>
     </div>
   </mat-toolbar-row>

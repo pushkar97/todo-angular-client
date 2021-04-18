@@ -21,7 +21,9 @@ export class TaskFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private taskService: TasksService,
-              private validators: TaskValidationService) { }
+              private validators: TaskValidationService) {
+                console.log('TaskFormComponent created');
+               }
 
   ngOnInit(): void {}
 

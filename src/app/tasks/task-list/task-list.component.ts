@@ -14,7 +14,9 @@ export class TaskListComponent implements OnInit {
   meta?: ResponseMeta;
   completedTasks = 0;
 
-  constructor(private taskService: TasksService) { }
+  constructor(private taskService: TasksService) {
+    console.log('TaskListComponent created');
+  }
 
   ngOnInit(): void {
     this.getTasks();
@@ -44,7 +46,8 @@ export class TaskListComponent implements OnInit {
 
   OnChange($event: any, task: TaskDto): void {
     task.checked = $event.checked;
-    this.taskService.toggleCheched(task).subscribe(t => this.getCompletedTaskCount());
+    this.taskService.toggleCheched(task).subscribe();
+    this.getCompletedTaskCount();
   }
 
   getCompletedTaskCount(): void {

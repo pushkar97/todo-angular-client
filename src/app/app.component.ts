@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserDto } from './account/UserDto';
 import { UsersService } from './account/users.service';
 import { TasksService } from './tasks/tasks.service';
 
@@ -10,23 +11,18 @@ import { TasksService } from './tasks/tasks.service';
 })
 export class AppComponent implements OnInit {
 
-  isLoggedIn = false;
+  currentUser?: UserDto;
 
   constructor(private userService: UsersService,
               private router: Router,
               private taskService: TasksService){
-
+                this.userService.userDetail$.subscribe(user => this.currentUser = user);
   }
 
   title = 'TODO';
 
   ngOnInit(): void {
-    this.userService.userDetail$.subscribe(t => {
-      this.isLoggedIn = Boolean(t.username);
-    });
-    if (!this.isLoggedIn){
-      this.router.navigateByUrl('/login');
-    }
+
   }
 
   logout(): void {
